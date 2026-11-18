@@ -195,7 +195,7 @@ DB_PASSWORD=
 
 # Stripe Configuration
 STRIPE_PUBLISHABLE_KEY=pk_test_...
-STRIPE_SECRET_KEY=sk_test_...
+STRIPE_SECRET_KEY=your_test_secret_key_here
 ```
 
 ## Session Security
