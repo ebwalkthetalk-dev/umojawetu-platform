@@ -1,0 +1,20 @@
+{
+  "name": "Umojawetu Platform",
+  "short_name": "Umojawetu",
+  "description": "Discover, book, and support community events",
+  "start_url": "/public/events.php",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/assets/favicon/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "theme_color": "#d12828",
+  "background_color": "#ffffff",
+  "categories": ["events", "fundraising", "community"]
+}

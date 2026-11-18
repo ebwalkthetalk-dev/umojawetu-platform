@@ -1,0 +1,376 @@
+/**
+ * Umojawetu Platform - Shared Styles
+ * Includes: Tooltips, Loading Spinner, Modals, UI Enhancements
+ */
+
+/* ============================================
+   LOADING SPINNER (Branded)
+   ============================================ */
+
+.loading-spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.loading-spinner.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid #f0f0f0;
+    border-top: 4px solid #d12828;
+    border-right: 4px solid #fbbf24;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.loading-spinner p {
+    margin-top: 20px;
+    color: #666;
+    font-size: 14px;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+/* ============================================
+   TOOLTIPS
+   ============================================ */
+
+.tooltip-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #e5e5e5;
+    color: #666;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: help;
+    margin-left: 4px;
+    transition: background 0.2s ease, color 0.2s ease;
+    border: none;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.tooltip-trigger:hover {
+    background: #d12828;
+    color: white;
+}
+
+.tooltip-trigger:focus {
+    outline: 2px solid #d12828;
+    outline-offset: 2px;
+}
+
+/* Tooltip box */
+.tooltip {
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1f2937;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    white-space: nowrap;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    pointer-events: none;
+}
+
+.tooltip-trigger:hover ~ .tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Tooltip arrow */
+.tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: #1f2937;
+}
+
+/* Tooltip with icon prefix */
+.tooltip-icon {
+    position: relative;
+    cursor: help;
+    font-size: 12px;
+    color: #666;
+    margin-left: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+}
+
+/* Form control with tooltip */
+.form-control-with-tooltip {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Responsive tooltip for mobile */
+@media (max-width: 640px) {
+    .tooltip {
+        white-space: normal;
+        max-width: 200px;
+        left: auto;
+        right: 0;
+        transform: none;
+    }
+    
+    .tooltip::after {
+        left: auto;
+        right: 10px;
+    }
+}
+
+/* ============================================
+   HELP TEXT & FIELD DESCRIPTIONS
+   ============================================ */
+
+.help-text {
+    display: block;
+    font-size: 0.875rem;
+    color: #666;
+    margin-top: 0.25rem;
+}
+
+.help-text.required {
+    color: #d12828;
+}
+
+/* ============================================
+   MODALS
+   ============================================ */
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    animation: slideUp 0.3s ease;
+}
+
+.modal-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #999;
+    transition: color 0.2s ease;
+}
+
+.modal-close:hover {
+    color: #333;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ============================================
+   KEYBOARD HINTS
+   ============================================ */
+
+.keyboard-hints {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    font-size: 0.75rem;
+    color: #999;
+    text-align: right;
+    z-index: 500;
+    animation: slideIn 0.3s ease;
+    max-width: 200px;
+}
+
+.keyboard-hints.hidden {
+    display: none;
+}
+
+.keyboard-hints p {
+    margin: 0.25rem 0;
+}
+
+kbd {
+    display: inline-block;
+    padding: 2px 6px;
+    background: #f0f0f0;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    font-family: monospace;
+    font-size: 0.85em;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 640px) {
+    .keyboard-hints {
+        display: none !important;
+    }
+}
+
+/* ============================================
+   ACCESSIBILITY: Reduced Motion
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    .spinner,
+    .loading-spinner p,
+    .tooltip,
+    .modal-content,
+    .keyboard-hints {
+        animation: none !important;
+        transition: none !important;
+    }
+    
+    .loading-spinner.hidden {
+        opacity: 0;
+    }
+}
+
+/* ============================================
+   KEYBOARD NAVIGATION FOCUS STATES
+   ============================================ */
+
+:focus-visible {
+    outline: 2px solid #d12828;
+    outline-offset: 2px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 2px solid #d12828;
+    outline-offset: 2px;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.text-center {
+    text-align: center;
+}
+
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-4 { margin-top: 1rem; }
+.mt-6 { margin-top: 1.5rem; }
+
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+
+.gap-2 { gap: 0.5rem; }
+.gap-4 { gap: 1rem; }
+
+.hidden {
+    display: none !important;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}

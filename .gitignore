@@ -1,0 +1,54 @@
+﻿# ============================================
+# Secrets — never commit
+# ============================================
+.env
+config/.env
+*.env.local
+
+# ============================================
+# Database files & backups
+# ============================================
+*.db
+*.db-shm
+*.db-wal
+*.db.bak.*
+*.sha256
+storage/*.db
+storage/*.db.bak.*
+storage/*.sha256
+
+# ============================================
+# Logs
+# ============================================
+storage/logs/*
+!storage/logs/.gitkeep
+*.log
+
+# ============================================
+# Uploads (user-generated content)
+# ============================================
+storage/uploads/*
+!storage/uploads/.gitkeep
+
+# ============================================
+# OS / Editor
+# ============================================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# ============================================
+# Test artifacts
+# ============================================
+tests/output/
+
+# Backup files (created by scripts)
+*.bak.*
+
+# Track .htaccess in uploads despite ignoring the uploads dir
+!storage/uploads/.htaccess
+
+# Track .htaccess in uploads despite ignoring the uploads dir
+!storage/uploads/.htaccess
