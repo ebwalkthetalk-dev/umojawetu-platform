@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bindValue(':status', $status, SQLITE3_TEXT);
             
             if ($stmt->execute()) {
-                $message = '✅ Announcement created successfully';
+                $message = 'âœ… Announcement created successfully';
             } else {
                 $error = 'Failed to create announcement';
             }
@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bindValue(':id', $id, SQLITE3_INTEGER);
             
             if ($stmt->execute()) {
-                $message = '✅ Announcement updated successfully';
+                $message = 'âœ… Announcement updated successfully';
             } else {
                 $error = 'Failed to update announcement';
             }
@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($action === 'delete_announcement') {
         $id = intval($_POST['announcement_id'] ?? 0);
         if ($db->exec("DELETE FROM EventAnnouncements WHERE Id = $id")) {
-            $message = '✅ Announcement deleted';
+            $message = 'âœ… Announcement deleted';
         } else {
             $error = 'Failed to delete announcement';
         }
@@ -113,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bindValue(':priority', $ann['Priority'], SQLITE3_INTEGER);
             
             if ($stmt->execute()) {
-                $message = '✅ Announcement duplicated';
+                $message = 'âœ… Announcement duplicated';
             } else {
                 $error = 'Failed to duplicate announcement';
             }
@@ -188,11 +188,11 @@ $draftCount = $db->querySingle("SELECT COUNT(*) FROM EventAnnouncements WHERE St
                 <p class="text-xs text-gray-400">Umojawetu Platform</p>
             </div>
             <nav class="flex-1 p-4 space-y-1">
-                <a href="dashboard-unified.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">📊 Dashboard</a>
-                <a href="events.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">📅 Events</a>
-                <a href="event-announcements.php" class="flex items-center gap-3 px-4 py-2 rounded-lg bg-red-600">📢 Announcements</a>
-                <a href="attendees.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">👥 Attendees</a>
-                <a href="logout.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800 mt-20 text-red-400">🚪 Logout</a>
+                <a href="dashboard-unified.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">ðŸ“Š Dashboard</a>
+                <a href="events.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">ðŸ“… Events</a>
+                <a href="event-announcements.php" class="flex items-center gap-3 px-4 py-2 rounded-lg bg-red-600">ðŸ“¢ Announcements</a>
+                <a href="attendees.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">ðŸ‘¥ Attendees</a>
+                <a href="logout.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800 mt-20 text-red-400">ðŸšª Logout</a>
             </nav>
         </div>
 
@@ -200,18 +200,18 @@ $draftCount = $db->querySingle("SELECT COUNT(*) FROM EventAnnouncements WHERE St
         <div class="flex-1 overflow-auto p-6">
             <div class="flex justify-between items-center mb-6">
                 <div>
-                    <h1 class="text-3xl font-bold">📢 Event Announcements</h1>
+                    <h1 class="text-3xl font-bold">ðŸ“¢ Event Announcements</h1>
                     <p class="text-gray-600">Manage event updates, reminders, and alerts</p>
                 </div>
                 <button onclick="openCreateModal()" class="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 font-bold">+ New Announcement</button>
             </div>
 
             <?php if ($message): ?>
-                <div class="bg-green-100 text-green-700 p-4 rounded-lg mb-4">✅ <?php echo $message; ?></div>
+                <div class="bg-green-100 text-green-700 p-4 rounded-lg mb-4">âœ… <?php echo $message; ?></div>
             <?php endif; ?>
             
             <?php if ($error): ?>
-                <div class="bg-red-100 text-red-700 p-4 rounded-lg mb-4">❌ <?php echo $error; ?></div>
+                <div class="bg-red-100 text-red-700 p-4 rounded-lg mb-4">âŒ <?php echo $error; ?></div>
             <?php endif; ?>
 
             <!-- Stats -->
@@ -255,7 +255,7 @@ $draftCount = $db->querySingle("SELECT COUNT(*) FROM EventAnnouncements WHERE St
                             <option value="draft" <?php echo $statusFilter === 'draft' ? 'selected' : ''; ?>>Draft</option>
                         </select>
                     </div>
-                    <button type="submit" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700">🔍 Filter</button>
+                    <button type="submit" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700">ðŸ” Filter</button>
                     <a href="event-announcements.php" class="text-gray-600 hover:underline">Reset</a>
                 </form>
             </div>
@@ -296,7 +296,7 @@ $draftCount = $db->querySingle("SELECT COUNT(*) FROM EventAnnouncements WHERE St
                             </td>
                             <td class="p-4">
                                 <span class="priority-badge <?php echo $priorityBadge; ?>">
-                                    <?php echo str_repeat('⭐', $row['Priority']); ?>
+                                    <?php echo str_repeat('â­', $row['Priority']); ?>
                                 </span>
                             </td>
                             <td class="p-4">
@@ -315,9 +315,9 @@ $draftCount = $db->querySingle("SELECT COUNT(*) FROM EventAnnouncements WHERE St
                             </td>
                             <td class="p-4">
                                 <div class="flex gap-2">
-                                    <button onclick="openEditModal(<?php echo $row['Id']; ?>)" class="text-blue-600 hover:underline text-sm">✏️ Edit</button>
-                                    <button onclick="duplicateAnnouncement(<?php echo $row['Id']; ?>)" class="text-purple-600 hover:underline text-sm">📋 Duplicate</button>
-                                    <button onclick="if(confirm('Delete this announcement?')) location.href='?delete=<?php echo $row['Id']; ?>'" class="text-red-600 hover:underline text-sm">🗑️ Delete</button>
+                                    <button onclick="openEditModal(<?php echo $row['Id']; ?>)" class="text-blue-600 hover:underline text-sm">âœï¸ Edit</button>
+                                    <button onclick="duplicateAnnouncement(<?php echo $row['Id']; ?>)" class="text-purple-600 hover:underline text-sm">ðŸ“‹ Duplicate</button>
+                                    <button onclick="if(confirm('Delete this announcement?')) location.href='?delete=<?php echo $row['Id']; ?>'" class="text-red-600 hover:underline text-sm">ðŸ—‘ï¸ Delete</button>
                                 </div>
                             </td>
                         </tr>
@@ -326,7 +326,7 @@ $draftCount = $db->querySingle("SELECT COUNT(*) FROM EventAnnouncements WHERE St
                         <?php if ($rowCount === 0): ?>
                         <tr>
                             <td colspan="7" class="p-8 text-center text-gray-500">
-                                📭 No announcements yet. Create one to get started!
+                                ðŸ“­ No announcements yet. Create one to get started!
                             </td>
                         </tr>
                         <?php endif; ?>
@@ -377,28 +377,28 @@ $draftCount = $db->querySingle("SELECT COUNT(*) FROM EventAnnouncements WHERE St
                     <div>
                         <label class="block text-sm font-medium mb-2">Type</label>
                         <select name="type" id="typeSelect" class="w-full border rounded-lg p-3">
-                            <option value="update">📝 Update</option>
-                            <option value="reminder">⏰ Reminder</option>
-                            <option value="alert">🚨 Alert</option>
+                            <option value="update">ðŸ“ Update</option>
+                            <option value="reminder">â° Reminder</option>
+                            <option value="alert">ðŸš¨ Alert</option>
                         </select>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium mb-2">Priority</label>
                         <select name="priority" id="prioritySelect" class="w-full border rounded-lg p-3">
-                            <option value="1">⭐ Low</option>
-                            <option value="2">⭐⭐ Normal</option>
-                            <option value="3" selected>⭐⭐⭐ Medium</option>
-                            <option value="4">⭐⭐⭐⭐ High</option>
-                            <option value="5">⭐⭐⭐⭐⭐ Critical</option>
+                            <option value="1">â­ Low</option>
+                            <option value="2">â­â­ Normal</option>
+                            <option value="3" selected>â­â­â­ Medium</option>
+                            <option value="4">â­â­â­â­ High</option>
+                            <option value="5">â­â­â­â­â­ Critical</option>
                         </select>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium mb-2">Status</label>
                         <select name="status" id="statusSelect" class="w-full border rounded-lg p-3">
-                            <option value="draft">📄 Draft</option>
-                            <option value="published">✅ Published</option>
+                            <option value="draft">ðŸ“„ Draft</option>
+                            <option value="published">âœ… Published</option>
                         </select>
                     </div>
                 </div>
@@ -440,7 +440,7 @@ $draftCount = $db->querySingle("SELECT COUNT(*) FROM EventAnnouncements WHERE St
 
         function openEditModal(id) {
             // Fetch announcement data via AJAX
-            fetch('/umojawetu-platform/api/events/get-announcement.php?id=' + id)
+            fetch('/api/events/get-announcement.php?id=' + id)
                 .then(res => res.json())
                 .then(data => {
                     if (data.success) {

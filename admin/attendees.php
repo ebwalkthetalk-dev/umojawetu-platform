@@ -32,14 +32,14 @@ if ($cameraMode) {
         <div class="container mx-auto px-4 py-8 max-w-2xl">
             <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
                 <div class="bg-gradient-to-r from-red-600 to-red-700 p-6 text-white text-center">
-                    <h1 class="text-2xl font-bold">📷 QR Scanner</h1>
+                    <h1 class="text-2xl font-bold">ðŸ“· QR Scanner</h1>
                     <p class="text-red-100">Scan attendee QR code to check in</p>
                 </div>
                 <div class="p-6">
                     <div id="reader"></div>
                     <div id="result" class="mt-4 hidden"></div>
                     <div class="mt-4 text-center">
-                        <a href="attendees.php" class="text-red-600 hover:underline">← Back to Attendees</a>
+                        <a href="attendees.php" class="text-red-600 hover:underline">â† Back to Attendees</a>
                     </div>
                 </div>
             </div>
@@ -51,21 +51,21 @@ if ($cameraMode) {
                 const match = decodedText.match(/ID[:\s]*(\d+)/i);
                 const attendeeId = match ? match[1] : null;
                 if (attendeeId) {
-                    fetch(`/umojawetu-platform/api/attendees/checkin-by-id.php?id=${attendeeId}`)
+                    fetch(`/api/attendees/checkin-by-id.php?id=${attendeeId}`)
                         .then(res => res.json())
                         .then(data => {
                             const resultDiv = document.getElementById('result');
                             resultDiv.classList.remove('hidden');
                             if (data.success) {
-                                resultDiv.innerHTML = `<div class="bg-green-100 text-green-700 p-4 rounded-lg text-center">✅ ${data.message}<br><strong>${data.name}</strong> checked in!</div>`;
+                                resultDiv.innerHTML = `<div class="bg-green-100 text-green-700 p-4 rounded-lg text-center">âœ… ${data.message}<br><strong>${data.name}</strong> checked in!</div>`;
                                 setTimeout(() => { window.location.href = 'attendees.php'; }, 2000);
                             } else {
-                                resultDiv.innerHTML = `<div class="bg-red-100 text-red-700 p-4 rounded-lg text-center">❌ ${data.message}</div>`;
+                                resultDiv.innerHTML = `<div class="bg-red-100 text-red-700 p-4 rounded-lg text-center">âŒ ${data.message}</div>`;
                                 setTimeout(() => html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, arguments.callee, () => {}), 3000);
                             }
                         });
                 } else {
-                    document.getElementById('result').innerHTML = '<div class="bg-red-100 text-red-700 p-4 rounded-lg text-center">❌ Invalid QR code</div>';
+                    document.getElementById('result').innerHTML = '<div class="bg-red-100 text-red-700 p-4 rounded-lg text-center">âŒ Invalid QR code</div>';
                     document.getElementById('result').classList.remove('hidden');
                     setTimeout(() => html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, arguments.callee, () => {}), 3000);
                 }
@@ -116,32 +116,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bulk_action'])) {
         if ($action === 'checkin') {
             $idsList = implode(',', array_map('intval', $ids));
             $db->exec("UPDATE Attendees SET CheckedIn = 1, CheckedInAt = datetime('now') WHERE Id IN ($idsList)");
-            $message = count($ids) . " attendees checked in ✅";
+            $message = count($ids) . " attendees checked in âœ…";
             header('Location: attendees.php');
             exit;
         } elseif ($action === 'delete') {
             $idsList = implode(',', array_map('intval', $ids));
             $db->exec("UPDATE Attendees SET IsDeleted = 1, DeletedAt = datetime('now') WHERE Id IN ($idsList)");
-            $message = count($ids) . " attendees moved to trash 🗑️";
+            $message = count($ids) . " attendees moved to trash ðŸ—‘ï¸";
             header('Location: attendees.php');
             exit;
         } elseif ($action === 'restore') {
             $idsList = implode(',', array_map('intval', $ids));
             $db->exec("UPDATE Attendees SET IsDeleted = 0, DeletedAt = NULL WHERE Id IN ($idsList)");
-            $message = count($ids) . " attendees restored ↩️";
+            $message = count($ids) . " attendees restored â†©ï¸";
             header('Location: attendees.php');
             exit;
         } elseif ($action === 'restore_all') {
             $db->exec("UPDATE Attendees SET IsDeleted = 0, DeletedAt = NULL WHERE IsDeleted = 1");
             $deletedCount = count(array_filter($ids)); // For counting if any specific IDs
-            $message = "All deleted attendees restored ↩️";
+            $message = "All deleted attendees restored â†©ï¸";
             header('Location: attendees.php');
             exit;
         } elseif ($action === 'purge') {
             // Permanently delete selected records
             $idsList = implode(',', array_map('intval', $ids));
             $db->exec("DELETE FROM Attendees WHERE Id IN ($idsList) AND IsDeleted = 1");
-            $message = count($ids) . " attendees permanently deleted 💀";
+            $message = count($ids) . " attendees permanently deleted ðŸ’€";
             header('Location: attendees.php?show_deleted=1');
             exit;
         } elseif ($action === 'export' || $action === 'export_all') {
@@ -305,18 +305,18 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
                 <p class="text-xs text-gray-400">Umojawetu Platform</p>
             </div>
             <nav class="flex-1 p-4 space-y-1">
-                <a href="dashboard-unified.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">📊 Dashboard</a>
-                <a href="event-builder.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">✨ Event Builder</a>
-                <a href="events.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">📅 Events</a>
-                <a href="attendees.php" class="flex items-center gap-3 px-4 py-2 rounded-lg bg-red-600">👥 Attendees</a>
-                <a href="requests.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">💰 Requests</a>
-                <a href="pledges.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">🤝 Pledges</a>
-                <a href="media-manager.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">🖼️ Media</a>
-                <a href="payments.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">💳 Payments</a>
-                <a href="analytics.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">📊 Analytics</a>
-                <a href="admin-users.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">👑 Admin Users</a>
-                <a href="trash.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">🗑️ Trash <?php $trashCount = getDeletedRecordsCount($db, 'Attendees'); echo $trashCount > 0 ? '<span class="ml-2 bg-red-500 text-white px-2 py-0 rounded-full text-xs">' . $trashCount . '</span>' : ''; ?></a>
-                <a href="logout.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800 mt-20 text-red-400">🚪 Logout</a>
+                <a href="dashboard-unified.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">ðŸ“Š Dashboard</a>
+                <a href="event-builder.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">âœ¨ Event Builder</a>
+                <a href="events.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">ðŸ“… Events</a>
+                <a href="attendees.php" class="flex items-center gap-3 px-4 py-2 rounded-lg bg-red-600">ðŸ‘¥ Attendees</a>
+                <a href="requests.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">ðŸ’° Requests</a>
+                <a href="pledges.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">ðŸ¤ Pledges</a>
+                <a href="media-manager.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">ðŸ–¼ï¸ Media</a>
+                <a href="payments.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">ðŸ’³ Payments</a>
+                <a href="analytics.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">ðŸ“Š Analytics</a>
+                <a href="admin-users.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">ðŸ‘‘ Admin Users</a>
+                <a href="trash.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">ðŸ—‘ï¸ Trash <?php $trashCount = getDeletedRecordsCount($db, 'Attendees'); echo $trashCount > 0 ? '<span class="ml-2 bg-red-500 text-white px-2 py-0 rounded-full text-xs">' . $trashCount . '</span>' : ''; ?></a>
+                <a href="logout.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800 mt-20 text-red-400">ðŸšª Logout</a>
             </nav>
         </div>
 
@@ -324,38 +324,38 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
         <div class="flex-1 overflow-auto p-6">
             <div class="flex justify-between items-center mb-6">
                 <div>
-                    <h1 class="text-2xl font-bold">👥 Attendees Management</h1>
+                    <h1 class="text-2xl font-bold">ðŸ‘¥ Attendees Management</h1>
                     <p class="text-gray-600 text-sm">Manage attendees, check-in, and send emails</p>
                 </div>
                 <div class="flex gap-2">
-                    <a href="scanner-working.php" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 btn">📷 Scan QR</a>
-                    <button onclick="location.reload()" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 btn">🔄 Refresh</button>
+                    <a href="scanner-working.php" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 btn">ðŸ“· Scan QR</a>
+                    <button onclick="location.reload()" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 btn">ðŸ”„ Refresh</button>
                 </div>
             </div>
 
             <?php if ($message): ?>
-                <div class="bg-green-100 text-green-700 p-3 rounded-lg mb-4">✅ <?php echo $message; ?></div>
+                <div class="bg-green-100 text-green-700 p-3 rounded-lg mb-4">âœ… <?php echo $message; ?></div>
             <?php endif; ?>
 
             <!-- Stats Cards -->
             <div class="grid grid-cols-1 md:grid-cols-6 gap-4 mb-6">
                 <div class="stat-card bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-4 text-white">
-                    <div class="flex justify-between"><div><p class="text-sm">Total Attendees</p><p class="text-3xl font-bold"><?php echo $totalAttendees; ?></p></div><span class="text-4xl">👥</span></div>
+                    <div class="flex justify-between"><div><p class="text-sm">Total Attendees</p><p class="text-3xl font-bold"><?php echo $totalAttendees; ?></p></div><span class="text-4xl">ðŸ‘¥</span></div>
                 </div>
                 <div class="stat-card bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-4 text-white">
-                    <div class="flex justify-between"><div><p class="text-sm">Checked In</p><p class="text-3xl font-bold"><?php echo $checkedInCount; ?></p></div><span class="text-4xl">✅</span></div>
+                    <div class="flex justify-between"><div><p class="text-sm">Checked In</p><p class="text-3xl font-bold"><?php echo $checkedInCount; ?></p></div><span class="text-4xl">âœ…</span></div>
                 </div>
                 <div class="stat-card bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl p-4 text-white">
-                    <div class="flex justify-between"><div><p class="text-sm">Pending</p><p class="text-3xl font-bold"><?php echo $pendingCount; ?></p></div><span class="text-4xl">⏳</span></div>
+                    <div class="flex justify-between"><div><p class="text-sm">Pending</p><p class="text-3xl font-bold"><?php echo $pendingCount; ?></p></div><span class="text-4xl">â³</span></div>
                 </div>
                 <div class="stat-card bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl p-4 text-white">
-                    <div class="flex justify-between"><div><p class="text-sm">Total Revenue</p><p class="text-3xl font-bold">$<?php echo number_format($totalRevenue, 2); ?></p></div><span class="text-4xl">💰</span></div>
+                    <div class="flex justify-between"><div><p class="text-sm">Total Revenue</p><p class="text-3xl font-bold">$<?php echo number_format($totalRevenue, 2); ?></p></div><span class="text-4xl">ðŸ’°</span></div>
                 </div>
                 <div class="stat-card bg-gradient-to-r from-indigo-500 to-indigo-600 rounded-xl p-4 text-white">
-                    <div class="flex justify-between"><div><p class="text-sm">Avg Price</p><p class="text-3xl font-bold">$<?php echo number_format($averagePrice, 2); ?></p></div><span class="text-4xl">📊</span></div>
+                    <div class="flex justify-between"><div><p class="text-sm">Avg Price</p><p class="text-3xl font-bold">$<?php echo number_format($averagePrice, 2); ?></p></div><span class="text-4xl">ðŸ“Š</span></div>
                 </div>
                 <div class="stat-card bg-gradient-to-r from-red-500 to-red-600 rounded-xl p-4 text-white cursor-pointer" onclick="location.href='?show_deleted=1'">
-                    <div class="flex justify-between"><div><p class="text-sm">Deleted</p><p class="text-3xl font-bold"><?php echo $deletedCount; ?></p></div><span class="text-4xl">🗑️</span></div>
+                    <div class="flex justify-between"><div><p class="text-sm">Deleted</p><p class="text-3xl font-bold"><?php echo $deletedCount; ?></p></div><span class="text-4xl">ðŸ—‘ï¸</span></div>
                 </div>
             </div>
 
@@ -367,10 +367,10 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
                     <div><select name="status" class="border rounded-lg p-2"><option value="all">All Status</option><option value="checked_in" <?php echo $statusFilter=='checked_in'?'selected':''; ?>>Checked In</option><option value="not_checked" <?php echo $statusFilter=='not_checked'?'selected':''; ?>>Not Checked</option></select></div>
                     <?php if($showDeleted): ?>
                     <input type="hidden" name="show_deleted" value="1">
-                    <div><button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-lg btn">🗑️ Show Deleted</button></div>
-                    <div><a href="attendees.php" class="bg-gray-600 text-white px-4 py-2 rounded-lg text-center btn">← Back</a></div>
+                    <div><button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-lg btn">ðŸ—‘ï¸ Show Deleted</button></div>
+                    <div><a href="attendees.php" class="bg-gray-600 text-white px-4 py-2 rounded-lg text-center btn">â† Back</a></div>
                     <?php else: ?>
-                    <div><button type="submit" class="bg-gray-600 text-white px-4 py-2 rounded-lg btn">🔍 Filter</button></div>
+                    <div><button type="submit" class="bg-gray-600 text-white px-4 py-2 rounded-lg btn">ðŸ” Filter</button></div>
                     <div><a href="attendees.php" class="text-red-600 hover:underline ml-2 font-semibold">Reset</a></div>
                     <?php endif; ?>
                 </form>
@@ -383,40 +383,40 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
                     <!-- Deleted Attendees Actions -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-2 mb-4">
                         <div class="flex gap-2">
-                            <select name="bulk_action" class="flex-1 border rounded-lg p-2 text-sm"><option value="">Bulk Actions</option><option value="restore">↩️ Restore Selected</option><option value="purge">💀 Permanently Delete</option></select>
+                            <select name="bulk_action" class="flex-1 border rounded-lg p-2 text-sm"><option value="">Bulk Actions</option><option value="restore">â†©ï¸ Restore Selected</option><option value="purge">ðŸ’€ Permanently Delete</option></select>
                             <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg btn text-sm">Apply</button>
                         </div>
                         <div class="flex gap-2">
-                            <button type="button" onclick="selectAll()" class="flex-1 bg-gray-300 text-gray-700 px-3 py-2 rounded-lg btn text-sm">✓ Select All</button>
-                            <button type="button" onclick="deselectAll()" class="flex-1 bg-gray-300 text-gray-700 px-3 py-2 rounded-lg btn text-sm">✗ Clear All</button>
+                            <button type="button" onclick="selectAll()" class="flex-1 bg-gray-300 text-gray-700 px-3 py-2 rounded-lg btn text-sm">âœ“ Select All</button>
+                            <button type="button" onclick="deselectAll()" class="flex-1 bg-gray-300 text-gray-700 px-3 py-2 rounded-lg btn text-sm">âœ— Clear All</button>
                         </div>
                         <div class="flex gap-2">
-                            <button type="button" onclick="if(confirm('↩️ Restore ALL deleted attendees?')) { submitBulkAction('restore_all'); }" class="flex-1 bg-green-600 text-white px-3 py-2 rounded-lg btn text-sm">↩️ Restore All</button>
+                            <button type="button" onclick="if(confirm('â†©ï¸ Restore ALL deleted attendees?')) { submitBulkAction('restore_all'); }" class="flex-1 bg-green-600 text-white px-3 py-2 rounded-lg btn text-sm">â†©ï¸ Restore All</button>
                         </div>
                     </div>
                     <div class="flex gap-2">
-                        <button type="button" onclick="exportDeletedSelected()" class="flex-1 bg-green-600 text-white px-4 py-2 rounded-lg btn text-sm">📥 Export Selected</button>
-                        <button type="button" onclick="exportDeletedAll()" class="flex-1 bg-emerald-600 text-white px-4 py-2 rounded-lg btn text-sm">📥 Export All</button>
+                        <button type="button" onclick="exportDeletedSelected()" class="flex-1 bg-green-600 text-white px-4 py-2 rounded-lg btn text-sm">ðŸ“¥ Export Selected</button>
+                        <button type="button" onclick="exportDeletedAll()" class="flex-1 bg-emerald-600 text-white px-4 py-2 rounded-lg btn text-sm">ðŸ“¥ Export All</button>
                     </div>
                     <?php else: ?>
                     <!-- Active Attendees Actions -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-2 mb-4">
                         <div class="flex gap-2">
-                            <select name="bulk_action" class="flex-1 border rounded-lg p-2 text-sm"><option value="">Bulk Actions</option><option value="checkin">✅ Check In</option><option value="delete">🗑️ Move to Trash</option></select>
+                            <select name="bulk_action" class="flex-1 border rounded-lg p-2 text-sm"><option value="">Bulk Actions</option><option value="checkin">âœ… Check In</option><option value="delete">ðŸ—‘ï¸ Move to Trash</option></select>
                             <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg btn text-sm">Apply</button>
                         </div>
                         <div class="flex gap-2">
-                            <button type="button" onclick="selectAll()" class="flex-1 bg-gray-300 text-gray-700 px-3 py-2 rounded-lg btn text-sm">✓ Select All</button>
-                            <button type="button" onclick="deselectAll()" class="flex-1 bg-gray-300 text-gray-700 px-3 py-2 rounded-lg btn text-sm">✗ Clear All</button>
+                            <button type="button" onclick="selectAll()" class="flex-1 bg-gray-300 text-gray-700 px-3 py-2 rounded-lg btn text-sm">âœ“ Select All</button>
+                            <button type="button" onclick="deselectAll()" class="flex-1 bg-gray-300 text-gray-700 px-3 py-2 rounded-lg btn text-sm">âœ— Clear All</button>
                         </div>
                         <div class="flex gap-2">
-                            <button type="button" onclick="bulkPrintQR()" class="flex-1 bg-purple-600 text-white px-3 py-2 rounded-lg btn text-sm">🖨️ Print QRs</button>
-                            <button type="button" onclick="bulkResend()" class="flex-1 bg-blue-600 text-white px-3 py-2 rounded-lg btn text-sm">📧 Resend</button>
+                            <button type="button" onclick="bulkPrintQR()" class="flex-1 bg-purple-600 text-white px-3 py-2 rounded-lg btn text-sm">ðŸ–¨ï¸ Print QRs</button>
+                            <button type="button" onclick="bulkResend()" class="flex-1 bg-blue-600 text-white px-3 py-2 rounded-lg btn text-sm">ðŸ“§ Resend</button>
                         </div>
                     </div>
                     <div class="flex gap-2">
-                        <button type="button" onclick="document.querySelector('select[name=bulk_action]').value='export'; document.getElementById('bulkForm').submit();" class="flex-1 bg-green-600 text-white px-4 py-2 rounded-lg btn text-sm">📥 Export Selected</button>
-                        <button type="button" onclick="document.querySelector('select[name=bulk_action]').value='export_all'; document.getElementById('bulkForm').submit();" class="flex-1 bg-emerald-600 text-white px-4 py-2 rounded-lg btn text-sm">📥 Export All</button>
+                        <button type="button" onclick="document.querySelector('select[name=bulk_action]').value='export'; document.getElementById('bulkForm').submit();" class="flex-1 bg-green-600 text-white px-4 py-2 rounded-lg btn text-sm">ðŸ“¥ Export Selected</button>
+                        <button type="button" onclick="document.querySelector('select[name=bulk_action]').value='export_all'; document.getElementById('bulkForm').submit();" class="flex-1 bg-emerald-600 text-white px-4 py-2 rounded-lg btn text-sm">ðŸ“¥ Export All</button>
                     </div>
                     <?php endif; ?>
                 </div>
@@ -457,23 +457,23 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
                                 <td class="p-2"><?php echo $row['ticket_type'] ?? 'Standard'; ?></td>
                                 <td class="p-2 text-right font-semibold text-blue-600">$<?php echo number_format($row['price_per_ticket'] ?? 0, 2); ?></td>
                                 <?php if(!$showDeleted): ?>
-                                <td class="p-2"><?php echo $row['CheckedIn'] ? '<span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs">✅ In</span>' : '<span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs">⏳ Pending</span>'; ?></td>
-                                <td class="p-2"><a href="/umojawetu-platform/api/attendees/generate-qr.php?id=<?php echo $row['Id']; ?>" target="_blank" class="bg-purple-600 text-white px-2 py-1 rounded text-xs inline-block btn">📱</a></td>
-                                <td class="p-2"><span class="email-status text-xs px-2 py-1 rounded bg-gray-100" id="status-<?php echo $row['Id']; ?>">—</span></td>
+                                <td class="p-2"><?php echo $row['CheckedIn'] ? '<span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs">âœ… In</span>' : '<span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs">â³ Pending</span>'; ?></td>
+                                <td class="p-2"><a href="/api/attendees/generate-qr.php?id=<?php echo $row['Id']; ?>" target="_blank" class="bg-purple-600 text-white px-2 py-1 rounded text-xs inline-block btn">ðŸ“±</a></td>
+                                <td class="p-2"><span class="email-status text-xs px-2 py-1 rounded bg-gray-100" id="status-<?php echo $row['Id']; ?>">â€”</span></td>
                                 <td class="p-2">
                                     <div class="flex gap-1 flex-wrap">
                                         <?php if(!$row['CheckedIn']): ?><a href="?checkin=<?php echo $row['Id']; ?>" class="bg-green-600 text-white px-2 py-1 rounded text-xs btn" onclick="return confirm('Check in?')">In</a><?php endif; ?>
-                                        <button type="button" onclick="resendEmail(<?php echo $row['Id']; ?>)" class="bg-blue-600 text-white px-2 py-1 rounded text-xs btn">📧</button>
-                                        <button type="button" onclick="printPass(<?php echo $row['Id']; ?>)" class="bg-teal-600 text-white px-2 py-1 rounded text-xs btn">🖨️</button>
-                                        <button type="button" onclick="deleteAttendee(<?php echo $row['Id']; ?>)" class="bg-red-600 text-white px-2 py-1 rounded text-xs btn">🗑️</button>
+                                        <button type="button" onclick="resendEmail(<?php echo $row['Id']; ?>)" class="bg-blue-600 text-white px-2 py-1 rounded text-xs btn">ðŸ“§</button>
+                                        <button type="button" onclick="printPass(<?php echo $row['Id']; ?>)" class="bg-teal-600 text-white px-2 py-1 rounded text-xs btn">ðŸ–¨ï¸</button>
+                                        <button type="button" onclick="deleteAttendee(<?php echo $row['Id']; ?>)" class="bg-red-600 text-white px-2 py-1 rounded text-xs btn">ðŸ—‘ï¸</button>
                                     </div>
                                 </td>
                                 <?php else: ?>
                                 <td class="p-2 text-xs text-gray-600"><?php echo $row['DeletedAt'] ? date('M d, Y', strtotime($row['DeletedAt'])) : 'Unknown'; ?></td>
                                 <td class="p-2">
                                     <div class="flex gap-1">
-                                        <button type="button" onclick="restoreSingle(<?php echo $row['Id']; ?>)" class="bg-green-600 text-white px-2 py-1 rounded text-xs btn">↩️</button>
-                                        <button type="button" onclick="purgeSingle(<?php echo $row['Id']; ?>)" class="bg-red-600 text-white px-2 py-1 rounded text-xs btn">💀</button>
+                                        <button type="button" onclick="restoreSingle(<?php echo $row['Id']; ?>)" class="bg-green-600 text-white px-2 py-1 rounded text-xs btn">â†©ï¸</button>
+                                        <button type="button" onclick="purgeSingle(<?php echo $row['Id']; ?>)" class="bg-red-600 text-white px-2 py-1 rounded text-xs btn">ðŸ’€</button>
                                     </div>
                                 </td>
                                 <?php endif; ?>
@@ -483,9 +483,9 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
                             <tr>
                                 <td colspan="<?php echo $showDeleted ? '8' : '10'; ?>" class="text-center text-gray-500 py-8">
                                     <?php if($showDeleted): ?>
-                                        🗑️ No deleted attendees
+                                        ðŸ—‘ï¸ No deleted attendees
                                     <?php else: ?>
-                                        👥 No attendees found
+                                        ðŸ‘¥ No attendees found
                                     <?php endif; ?>
                                 </td>
                             </tr>
@@ -526,7 +526,7 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
         function showNotification(msg, type) {
             let n = document.createElement('div');
             n.className = `notification ${type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white`;
-            n.innerHTML = (type === 'success' ? '✅ ' : '❌ ') + msg;
+            n.innerHTML = (type === 'success' ? 'âœ… ' : 'âŒ ') + msg;
             document.body.appendChild(n);
             setTimeout(() => {
                 n.style.opacity = '0';
@@ -537,7 +537,7 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
 
         // Print Pass
         function printPass(id) {
-            window.open(`/umojawetu-platform/api/attendees/generate-qr.php?id=${id}`, '_blank');
+            window.open(`/api/attendees/generate-qr.php?id=${id}`, '_blank');
         }
 
         // Bulk Print QR Codes
@@ -549,7 +549,7 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
             }
             selected.forEach((id, index) => {
                 setTimeout(() => {
-                    window.open(`/umojawetu-platform/api/attendees/generate-qr.php?id=${id}`, '_blank');
+                    window.open(`/api/attendees/generate-qr.php?id=${id}`, '_blank');
                 }, index * 200);
             });
             showNotification(`Opening QR codes for ${selected.length} attendees...`, 'success');
@@ -557,13 +557,13 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
 
         // Delete Attendee (Soft Delete)
         function deleteAttendee(id) {
-            if(!confirm('🗑️ Move to trash? (Can be restored)')) return;
+            if(!confirm('ðŸ—‘ï¸ Move to trash? (Can be restored)')) return;
             window.location.href = `?delete=${id}`;
         }
 
         // Restore Single
         function restoreSingle(id) {
-            if(!confirm('↩️ Restore this attendee?')) return;
+            if(!confirm('â†©ï¸ Restore this attendee?')) return;
             let form = document.createElement('form');
             form.method = 'POST';
             form.innerHTML = `<input name="bulk_action" value="restore"><input name="selected_ids[]" value="${id}">`;
@@ -573,7 +573,7 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
 
         // Purge Single (Permanent Delete)
         function purgeSingle(id) {
-            if(!confirm('💀 Permanently delete "' + id + '"? Cannot be undone!')) return;
+            if(!confirm('ðŸ’€ Permanently delete "' + id + '"? Cannot be undone!')) return;
             let form = document.createElement('form');
             form.method = 'POST';
             form.innerHTML = `<input name="bulk_action" value="purge"><input name="selected_ids[]" value="${id}">`;
@@ -614,7 +614,7 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
             
             let btn = event.target;
             let originalText = btn.innerText;
-            btn.innerText = '⏳';
+            btn.innerText = 'â³';
             btn.disabled = true;
             
             // Simulate email send
@@ -622,7 +622,7 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
             
             let statusSpan = document.getElementById(`status-${id}`);
             if(statusSpan) {
-                statusSpan.innerHTML = '✅ Sent';
+                statusSpan.innerHTML = 'âœ… Sent';
                 statusSpan.className = 'email-status text-xs px-2 py-1 rounded bg-green-100 text-green-700';
             }
             showNotification('Email sent!', 'success');
@@ -656,7 +656,7 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
             modal.innerHTML = `
                 <div class="bg-white rounded-xl max-w-2xl w-full max-h-[80vh] overflow-auto m-4">
                     <div class="sticky top-0 bg-white border-b p-4 flex justify-between items-center">
-                        <h3 class="font-bold text-lg">📧 Email Preview</h3>
+                        <h3 class="font-bold text-lg">ðŸ“§ Email Preview</h3>
                         <button onclick="this.closest('.fixed').remove()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
                     </div>
                     <div class="p-4">
@@ -695,7 +695,7 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
             if(!confirm('Send email?')) return;
             let statusSpan = document.getElementById(`status-${id}`);
             if(statusSpan) {
-                statusSpan.innerHTML = '✅ Sent';
+                statusSpan.innerHTML = 'âœ… Sent';
                 statusSpan.className = 'email-status text-xs px-2 py-1 rounded bg-green-100 text-green-700';
             }
             showNotification('Email sent!', 'success');
@@ -714,7 +714,7 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
             selected.forEach(id => {
                 let statusSpan = document.getElementById(`status-${id}`);
                 if(statusSpan) {
-                    statusSpan.innerHTML = '✅ Sent';
+                    statusSpan.innerHTML = 'âœ… Sent';
                     statusSpan.className = 'email-status text-xs px-2 py-1 rounded bg-green-100 text-green-700';
                 }
             });

@@ -45,13 +45,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bulk_action'])) {
         if ($action === 'checkin' && hasPermission($adminRole, 'checkin')) {
             $idsList = implode(',', array_map('intval', $ids));
             $db->exec("UPDATE Attendees SET CheckedIn = 1, CheckedInAt = datetime('now') WHERE Id IN ($idsList)");
-            $message = count($ids) . " attendees checked in ✅";
+            $message = count($ids) . " attendees checked in âœ…";
             header('Location: attendees-enhanced.php');
             exit;
         } elseif ($action === 'delete' && hasPermission($adminRole, 'delete')) {
             $idsList = implode(',', array_map('intval', $ids));
             $db->exec("UPDATE Attendees SET IsDeleted = 1, DeletedAt = datetime('now') WHERE Id IN ($idsList)");
-            $message = count($ids) . " attendees moved to trash 🗑️";
+            $message = count($ids) . " attendees moved to trash ðŸ—‘ï¸";
             header('Location: attendees-enhanced.php');
             exit;
         } elseif (($action === 'export' || $action === 'export_all') && hasPermission($adminRole, 'export')) {
@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bulk_action'])) {
 // Handle edit attendee
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'edit_attendee') {
     if (!hasPermission($adminRole, 'edit')) {
-        $message = '❌ Permission denied';
+        $message = 'âŒ Permission denied';
     } else {
         $id = intval($_POST['attendee_id']);
         $name = SQLite3::escapeString($_POST['name'] ?? '');
@@ -118,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         $member_status = SQLite3::escapeString($_POST['member_status'] ?? '');
         
         $db->exec("UPDATE Attendees SET Name = '$name', Email = '$email', Phone = '$phone', ticket_type = '$ticket_type', member_status = '$member_status', last_edited_by = $adminId, last_edited_at = datetime('now') WHERE Id = $id");
-        $message = "✅ Attendee updated successfully";
+        $message = "âœ… Attendee updated successfully";
     }
     header('Location: attendees-enhanced.php');
     exit;
@@ -148,11 +148,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bulk_action'])) {
     if ($action === 'checkin' && hasPermission($adminRole, 'checkin')) {
         $idsList = implode(',', array_map('intval', $ids));
         $db->exec("UPDATE Attendees SET CheckedIn = 1, CheckedInAt = datetime('now') WHERE Id IN ($idsList)");
-        $message = count($ids) . " attendees checked in ✅";
+        $message = count($ids) . " attendees checked in âœ…";
     } elseif ($action === 'delete' && hasPermission($adminRole, 'delete')) {
         $idsList = implode(',', array_map('intval', $ids));
         $db->exec("UPDATE Attendees SET IsDeleted = 1, DeletedAt = datetime('now') WHERE Id IN ($idsList)");
-        $message = count($ids) . " attendees moved to trash 🗑️";
+        $message = count($ids) . " attendees moved to trash ðŸ—‘ï¸";
     } elseif ($action === 'export' && hasPermission($adminRole, 'export')) {
         // Export logic (keep existing)
         if (!empty($ids)) {
@@ -262,11 +262,11 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
                 <p class="text-xs text-gray-400">Role: <span class="capitalize"><?php echo str_replace('_', ' ', $adminRole); ?></span></p>
             </div>
             <nav class="flex-1 p-4 space-y-1 overflow-y-auto">
-                <a href="dashboard-unified.php" class="block px-4 py-2 rounded-lg hover:bg-gray-800">📊 Dashboard</a>
-                <a href="attendees-enhanced.php" class="block px-4 py-2 rounded-lg bg-red-600">👥 Attendees</a>
-                <a href="analytics.php" class="block px-4 py-2 rounded-lg hover:bg-gray-800">📈 Analytics</a>
-                <a href="trash.php" class="block px-4 py-2 rounded-lg hover:bg-gray-800">🗑️ Trash</a>
-                <a href="logout.php" class="block px-4 py-2 rounded-lg hover:bg-gray-800 text-red-400 mt-8">🚪 Logout</a>
+                <a href="dashboard-unified.php" class="block px-4 py-2 rounded-lg hover:bg-gray-800">ðŸ“Š Dashboard</a>
+                <a href="attendees-enhanced.php" class="block px-4 py-2 rounded-lg bg-red-600">ðŸ‘¥ Attendees</a>
+                <a href="analytics.php" class="block px-4 py-2 rounded-lg hover:bg-gray-800">ðŸ“ˆ Analytics</a>
+                <a href="trash.php" class="block px-4 py-2 rounded-lg hover:bg-gray-800">ðŸ—‘ï¸ Trash</a>
+                <a href="logout.php" class="block px-4 py-2 rounded-lg hover:bg-gray-800 text-red-400 mt-8">ðŸšª Logout</a>
             </nav>
         </div>
 
@@ -274,20 +274,20 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
         <div class="flex-1 overflow-auto p-4 md:p-6">
             <!-- Header -->
             <div class="mb-6">
-                <h1 class="text-2xl md:text-3xl font-bold">👥 Attendees Management</h1>
+                <h1 class="text-2xl md:text-3xl font-bold">ðŸ‘¥ Attendees Management</h1>
                 <p class="text-gray-600 text-sm">Manage attendees, check-in, pricing, and communications</p>
             </div>
 
             <?php if ($message): ?>
-                <div class="bg-green-100 text-green-700 p-3 rounded-lg mb-4">✅ <?php echo $message; ?></div>
+                <div class="bg-green-100 text-green-700 p-3 rounded-lg mb-4">âœ… <?php echo $message; ?></div>
             <?php endif; ?>
 
             <!-- Stats Section (Collapsible) -->
             <div class="section-container bg-white rounded-lg shadow mb-4">
                 <div class="section-head flex items-center justify-between p-4 border-b" onclick="toggleSection(this, 'stats')">
                     <div class="flex items-center gap-3">
-                        <span class="section-toggle">▼</span>
-                        <span class="text-lg">📊</span>
+                        <span class="section-toggle">â–¼</span>
+                        <span class="text-lg">ðŸ“Š</span>
                         <h2 class="font-bold">Statistics & Overview</h2>
                     </div>
                     <span class="text-xs text-gray-500">Click to collapse</span>
@@ -300,15 +300,15 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
                         </div>
                         <div class="bg-green-50 p-3 rounded-lg border border-green-200">
                             <p class="text-gray-600 text-xs">Checked In</p>
-                            <p class="text-2xl font-bold text-green-600">✅ <?php echo $checkedInCount; ?></p>
+                            <p class="text-2xl font-bold text-green-600">âœ… <?php echo $checkedInCount; ?></p>
                         </div>
                         <div class="bg-orange-50 p-3 rounded-lg border border-orange-200">
                             <p class="text-gray-600 text-xs">Pending</p>
-                            <p class="text-2xl font-bold text-orange-600">⏳ <?php echo $pendingCount; ?></p>
+                            <p class="text-2xl font-bold text-orange-600">â³ <?php echo $pendingCount; ?></p>
                         </div>
                         <div class="bg-purple-50 p-3 rounded-lg border border-purple-200">
                             <p class="text-gray-600 text-xs">Deleted</p>
-                            <p class="text-2xl font-bold text-purple-600">🗑️ <?php echo $deletedCount; ?></p>
+                            <p class="text-2xl font-bold text-purple-600">ðŸ—‘ï¸ <?php echo $deletedCount; ?></p>
                         </div>
                         <div class="bg-emerald-50 p-3 rounded-lg border border-emerald-200">
                             <p class="text-gray-600 text-xs">Total Revenue</p>
@@ -326,8 +326,8 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
             <div class="section-container bg-white rounded-lg shadow mb-4">
                 <div class="section-head flex items-center justify-between p-4 border-b" onclick="toggleSection(this, 'filters')">
                     <div class="flex items-center gap-3">
-                        <span class="section-toggle">▼</span>
-                        <span class="text-lg">🔍</span>
+                        <span class="section-toggle">â–¼</span>
+                        <span class="text-lg">ðŸ”</span>
                         <h2 class="font-bold">Filters & Search</h2>
                     </div>
                 </div>
@@ -367,26 +367,26 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
                             <select name="bulk_action" class="flex-1 border rounded-lg p-2 text-sm">
                                 <option value="">Bulk Actions</option>
                                 <?php if (hasPermission($adminRole, 'checkin')): ?>
-                                <option value="checkin">✅ Check In</option>
+                                <option value="checkin">âœ… Check In</option>
                                 <?php endif; ?>
                                 <?php if (hasPermission($adminRole, 'delete')): ?>
-                                <option value="delete">🗑️ Move to Trash</option>
+                                <option value="delete">ðŸ—‘ï¸ Move to Trash</option>
                                 <?php endif; ?>
                             </select>
                             <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg btn text-sm font-medium">Apply</button>
                         </div>
                         <div class="flex gap-2">
-                            <button type="button" onclick="selectAll()" class="flex-1 bg-gray-300 text-gray-700 px-3 py-2 rounded-lg text-sm">✓ Select All</button>
-                            <button type="button" onclick="deselectAll()" class="flex-1 bg-gray-300 text-gray-700 px-3 py-2 rounded-lg text-sm">✗ Clear All</button>
+                            <button type="button" onclick="selectAll()" class="flex-1 bg-gray-300 text-gray-700 px-3 py-2 rounded-lg text-sm">âœ“ Select All</button>
+                            <button type="button" onclick="deselectAll()" class="flex-1 bg-gray-300 text-gray-700 px-3 py-2 rounded-lg text-sm">âœ— Clear All</button>
                         </div>
                         <div class="flex gap-2">
-                            <button type="button" onclick="bulkPrintQR()" class="flex-1 bg-purple-600 text-white px-3 py-2 rounded-lg text-sm font-medium">🖨️ Print QRs</button>
-                            <button type="button" onclick="bulkResend()" class="flex-1 bg-blue-600 text-white px-3 py-2 rounded-lg text-sm font-medium">📧 Resend</button>
+                            <button type="button" onclick="bulkPrintQR()" class="flex-1 bg-purple-600 text-white px-3 py-2 rounded-lg text-sm font-medium">ðŸ–¨ï¸ Print QRs</button>
+                            <button type="button" onclick="bulkResend()" class="flex-1 bg-blue-600 text-white px-3 py-2 rounded-lg text-sm font-medium">ðŸ“§ Resend</button>
                         </div>
                     </div>
                     <div class="flex gap-2">
-                        <button type="button" onclick="exportSelected()" class="flex-1 bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium">📥 Export Selected</button>
-                        <button type="button" onclick="exportAll()" class="flex-1 bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium">📥 Export All</button>
+                        <button type="button" onclick="exportSelected()" class="flex-1 bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium">ðŸ“¥ Export Selected</button>
+                        <button type="button" onclick="exportAll()" class="flex-1 bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium">ðŸ“¥ Export All</button>
                     </div>
                 </div>
 
@@ -425,11 +425,11 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
                                 <td class="p-2 text-sm"><?php echo htmlspecialchars(substr($row['EventTitle'] ?? 'N/A', 0, 15)); ?></td>
                                 <td class="p-2 text-sm"><?php echo $row['ticket_type'] ?? 'Standard'; ?></td>
                                 <td class="p-2 text-right font-semibold text-blue-600">$<?php echo number_format($row['price_per_ticket'] ?? 0, 2); ?></td>
-                                <td class="p-2 text-center"><?php echo $row['CheckedIn'] ? '<span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">✅ In</span>' : '<span class="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded">⏳ Pending</span>'; ?></td>
-                                <td class="p-2 text-center"><a href="/umojawetu-platform/api/attendees/generate-qr.php?id=<?php echo $row['Id']; ?>" target="_blank" class="bg-purple-600 text-white px-2 py-1 rounded text-xs inline-block btn hover:bg-purple-700">📱</a></td>
-                                <td class="p-2 text-center"><span class="email-status text-xs px-2 py-1 rounded bg-gray-100" id="status-<?php echo $row['Id']; ?>">—</span></td>
+                                <td class="p-2 text-center"><?php echo $row['CheckedIn'] ? '<span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">âœ… In</span>' : '<span class="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded">â³ Pending</span>'; ?></td>
+                                <td class="p-2 text-center"><a href="/api/attendees/generate-qr.php?id=<?php echo $row['Id']; ?>" target="_blank" class="bg-purple-600 text-white px-2 py-1 rounded text-xs inline-block btn hover:bg-purple-700">ðŸ“±</a></td>
+                                <td class="p-2 text-center"><span class="email-status text-xs px-2 py-1 rounded bg-gray-100" id="status-<?php echo $row['Id']; ?>">â€”</span></td>
                                 <?php if (hasPermission($adminRole, 'edit')): ?>
-                                <td class="p-2 text-center"><button type="button" onclick="openEditModal(<?php echo $row['Id']; ?>, '<?php echo htmlspecialchars($row['Name']); ?>', '<?php echo htmlspecialchars($row['Email']); ?>', '<?php echo htmlspecialchars($row['Phone'] ?? ''); ?>', '<?php echo htmlspecialchars($row['ticket_type'] ?? ''); ?>', '<?php echo htmlspecialchars($row['member_status'] ?? ''); ?>')" class="text-blue-600 hover:text-blue-800 font-medium">✎️</button></td>
+                                <td class="p-2 text-center"><button type="button" onclick="openEditModal(<?php echo $row['Id']; ?>, '<?php echo htmlspecialchars($row['Name']); ?>', '<?php echo htmlspecialchars($row['Email']); ?>', '<?php echo htmlspecialchars($row['Phone'] ?? ''); ?>', '<?php echo htmlspecialchars($row['ticket_type'] ?? ''); ?>', '<?php echo htmlspecialchars($row['member_status'] ?? ''); ?>')" class="text-blue-600 hover:text-blue-800 font-medium">âœŽï¸</button></td>
                                 <?php endif; ?>
                                 <td class="p-2 text-center">
                                     <div class="flex justify-center gap-1 flex-wrap">
@@ -437,18 +437,18 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
                                         <a href="?checkin=<?php echo $row['Id']; ?>" class="text-xs bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 btn" onclick="return confirm('Check in?')">In</a>
                                         <?php endif; ?>
                                         <?php if (hasPermission($adminRole, 'email')): ?>
-                                        <button type="button" onclick="resendEmail(<?php echo $row['Id']; ?>)" class="text-xs bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700 btn">📧</button>
+                                        <button type="button" onclick="resendEmail(<?php echo $row['Id']; ?>)" class="text-xs bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700 btn">ðŸ“§</button>
                                         <?php endif; ?>
-                                        <button type="button" onclick="printPass(<?php echo $row['Id']; ?>)" class="text-xs bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-700 btn">🖨️</button>
+                                        <button type="button" onclick="printPass(<?php echo $row['Id']; ?>)" class="text-xs bg-teal-600 text-white px-2 py-1 rounded hover:bg-teal-700 btn">ðŸ–¨ï¸</button>
                                         <?php if (hasPermission($adminRole, 'delete')): ?>
-                                        <button type="button" onclick="confirmDelete(<?php echo $row['Id']; ?>)" class="text-xs bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700 btn">🗑️</button>
+                                        <button type="button" onclick="confirmDelete(<?php echo $row['Id']; ?>)" class="text-xs bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700 btn">ðŸ—‘ï¸</button>
                                         <?php endif; ?>
                                     </div>
                                 </td>
                             </tr>
                             <?php endwhile; ?>
                             <?php if($rowCount === 0): ?>
-                            <tr><td colspan="<?php echo hasPermission($adminRole, 'edit') ? '12' : '11'; ?>" class="text-center text-gray-500 py-8">👥 No attendees found</td></tr>
+                            <tr><td colspan="<?php echo hasPermission($adminRole, 'edit') ? '12' : '11'; ?>" class="text-center text-gray-500 py-8">ðŸ‘¥ No attendees found</td></tr>
                             <?php endif; ?>
                         </tbody>
                     </table>
@@ -469,7 +469,7 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
                             <p class="text-xs text-gray-600">#<?php echo $row['Id']; ?></p>
                         </div>
                         <span class="text-xs font-semibold <?php echo $row['CheckedIn'] ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'; ?> px-2 py-1 rounded">
-                            <?php echo $row['CheckedIn'] ? '✅' : '⏳'; ?>
+                            <?php echo $row['CheckedIn'] ? 'âœ…' : 'â³'; ?>
                         </span>
                     </div>
                     <div class="grid grid-cols-2 gap-2 text-xs mb-3">
@@ -508,7 +508,7 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
     <div id="editModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
         <div class="bg-white rounded-xl max-w-md w-full max-h-[90vh] overflow-y-auto shadow-2xl">
             <div class="sticky top-0 bg-white border-b p-4 flex justify-between items-center">
-                <h3 class="font-bold text-lg">✎️ Edit Attendee</h3>
+                <h3 class="font-bold text-lg">âœŽï¸ Edit Attendee</h3>
                 <button onclick="closeEditModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
             </div>
             <form method="POST" class="p-4 space-y-4">
@@ -614,7 +614,7 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
         function showNotification(msg, type) {
             let n = document.createElement('div');
             n.className = `notification fixed top-5 right-5 z-50 ${type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white px-4 py-3 rounded-lg shadow-lg`;
-            n.innerHTML = (type === 'success' ? '✅ ' : '❌ ') + msg;
+            n.innerHTML = (type === 'success' ? 'âœ… ' : 'âŒ ') + msg;
             document.body.appendChild(n);
             setTimeout(() => {
                 n.style.opacity = '0';
@@ -625,7 +625,7 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
 
         // Print Pass
         function printPass(id) {
-            window.open(`/umojawetu-platform/api/attendees/generate-qr.php?id=${id}`, '_blank');
+            window.open(`/api/attendees/generate-qr.php?id=${id}`, '_blank');
         }
 
         // Bulk Print QR Codes
@@ -637,7 +637,7 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
             }
             selected.forEach((id, index) => {
                 setTimeout(() => {
-                    window.open(`/umojawetu-platform/api/attendees/generate-qr.php?id=${id}`, '_blank');
+                    window.open(`/api/attendees/generate-qr.php?id=${id}`, '_blank');
                 }, index * 200);
             });
             showNotification(`Opening QR codes for ${selected.length} attendees...`, 'success');
@@ -654,7 +654,7 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
             selected.forEach(id => {
                 let statusSpan = document.getElementById(`status-${id}`);
                 if(statusSpan) {
-                    statusSpan.innerHTML = '✅ Sent';
+                    statusSpan.innerHTML = 'âœ… Sent';
                     statusSpan.className = 'email-status text-xs px-2 py-1 rounded bg-green-100 text-green-700';
                 }
             });
@@ -688,7 +688,7 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
 
         // Delete Attendee (Soft Delete)
         function confirmDelete(id) {
-            if(!confirm('🗑️ Move to trash? (Can be restored)')) return;
+            if(!confirm('ðŸ—‘ï¸ Move to trash? (Can be restored)')) return;
             window.location.href = `?delete=${id}`;
         }
 
@@ -698,7 +698,7 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
             
             let btn = event.target;
             let originalText = btn.innerText;
-            btn.innerText = '⏳';
+            btn.innerText = 'â³';
             btn.disabled = true;
             
             // Simulate email send
@@ -706,7 +706,7 @@ $eventsResult = $db->query("SELECT Id, Title FROM Events WHERE (IsDeleted = 0 OR
             
             let statusSpan = document.getElementById(`status-${id}`);
             if(statusSpan) {
-                statusSpan.innerHTML = '✅ Sent';
+                statusSpan.innerHTML = 'âœ… Sent';
                 statusSpan.className = 'email-status text-xs px-2 py-1 rounded bg-green-100 text-green-700';
             }
             showNotification('Email sent!', 'success');

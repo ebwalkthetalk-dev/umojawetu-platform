@@ -24,9 +24,9 @@ if (isset($_GET['delete'])) {
     $id = intval($_GET['delete']);
     $result = softDeleteRecords($db, 'pledges', [$id]);
     if ($result['success']) {
-        $message = '✅ ' . $result['message'];
+        $message = 'âœ… ' . $result['message'];
     } else {
-        $error = '❌ Error deleting pledge';
+        $error = 'âŒ Error deleting pledge';
     }
 }
 
@@ -49,9 +49,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bulk_action'])) {
                 
                 if ($pledge) {
                     $statusDisplay = match($pledge['payment_status']) {
-                        'paid' => '✅ Paid',
-                        'pending' => '⏳ Pending',
-                        default => '📋 ' . ucfirst($pledge['payment_status'])
+                        'paid' => 'âœ… Paid',
+                        'pending' => 'â³ Pending',
+                        default => 'ðŸ“‹ ' . ucfirst($pledge['payment_status'])
                     };
                     
                     $emailBody = "
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bulk_action'])) {
                     <body>
                         <div class='container'>
                             <div class='header'>
-                                <h1>🤝 Pledge Confirmation</h1>
+                                <h1>ðŸ¤ Pledge Confirmation</h1>
                             </div>
                             <div class='content'>
                                 <p>Dear <strong>" . htmlspecialchars($pledge['pledger_name']) . "</strong>,</p>
@@ -117,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bulk_action'])) {
                     }
                 }
             }
-            $message = '📧 ' . $emailCount . ' pledge confirmation email(s) sent successfully!';
+            $message = 'ðŸ“§ ' . $emailCount . ' pledge confirmation email(s) sent successfully!';
         } elseif ($action === 'soft_delete') {
             $db->exec("UPDATE pledges SET IsDeleted = 1, DeletedAt = datetime('now') WHERE Id IN ($idsList)");
             $message = count($ids) . " pledges moved to trash";
@@ -250,17 +250,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
                 <p class="text-xs text-gray-400">Umojawetu Platform</p>
             </div>
             <nav class="flex-1 p-4 space-y-1">
-                <a href="dashboard-unified.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">📊 Dashboard</a>
-                <a href="event-builder.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">✨ Event Builder</a>
-                <a href="events.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">📅 Events</a>
-                <a href="attendees.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">👥 Attendees</a>
-                <a href="requests.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">💰 Requests</a>
-                <a href="pledges.php" class="flex items-center gap-3 px-4 py-2 rounded-lg bg-red-600">🤝 Pledges</a>
-                <a href="media-manager.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">🖼️ Media</a>
-                <a href="payments.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">💳 Payments</a>
-                <a href="analytics.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">📊 Analytics</a>
-                <a href="admin-users.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">👑 Admin Users</a>
-                <a href="logout.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800 mt-20 text-red-400">🚪 Logout</a>
+                <a href="dashboard-unified.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">ðŸ“Š Dashboard</a>
+                <a href="event-builder.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">âœ¨ Event Builder</a>
+                <a href="events.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">ðŸ“… Events</a>
+                <a href="attendees.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">ðŸ‘¥ Attendees</a>
+                <a href="requests.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">ðŸ’° Requests</a>
+                <a href="pledges.php" class="flex items-center gap-3 px-4 py-2 rounded-lg bg-red-600">ðŸ¤ Pledges</a>
+                <a href="media-manager.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">ðŸ–¼ï¸ Media</a>
+                <a href="payments.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">ðŸ’³ Payments</a>
+                <a href="analytics.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">ðŸ“Š Analytics</a>
+                <a href="admin-users.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">ðŸ‘‘ Admin Users</a>
+                <a href="logout.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800 mt-20 text-red-400">ðŸšª Logout</a>
             </nav>
         </div>
 
@@ -269,22 +269,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
             <!-- Pledges Management Section -->
             <div class="mb-8">
                 <div class="flex justify-between items-center mb-6">
-                    <h1 class="text-2xl font-bold">🤝 Pledges Management</h1>
+                    <h1 class="text-2xl font-bold">ðŸ¤ Pledges Management</h1>
                     <div class="flex gap-2">
-                        <a href="pledges.php" class="px-4 py-2 rounded-lg bg-blue-600 text-white <?php echo !$showTrash ? 'ring-2 ring-yellow-400' : ''; ?>">📊 Active Pledges</a>
+                        <a href="pledges.php" class="px-4 py-2 rounded-lg bg-blue-600 text-white <?php echo !$showTrash ? 'ring-2 ring-yellow-400' : ''; ?>">ðŸ“Š Active Pledges</a>
                         <?php 
                         $trashCount = $db->querySingle("SELECT COUNT(*) FROM pledges WHERE (IsDeleted = 1 OR IsDeleted IS NULL) AND IsDeleted = 1");
                         $trashCount = $trashCount ?? 0;
                         ?>
-                        <a href="pledges.php?show=trash" class="px-4 py-2 rounded-lg bg-red-600 text-white <?php echo $showTrash ? 'ring-2 ring-yellow-400' : ''; ?>">🗑️ Trash<?php if ($trashCount > 0) echo " (" . $trashCount . ")"; ?></a>
+                        <a href="pledges.php?show=trash" class="px-4 py-2 rounded-lg bg-red-600 text-white <?php echo $showTrash ? 'ring-2 ring-yellow-400' : ''; ?>">ðŸ—‘ï¸ Trash<?php if ($trashCount > 0) echo " (" . $trashCount . ")"; ?></a>
                     </div>
                 </div>
 
                 <?php if ($message): ?>
-                    <div class="bg-green-100 text-green-700 p-3 rounded-lg mb-4">✅ <?php echo $message; ?></div>
+                    <div class="bg-green-100 text-green-700 p-3 rounded-lg mb-4">âœ… <?php echo $message; ?></div>
                 <?php endif; ?>
                 <?php if ($error): ?>
-                    <div class="bg-red-100 text-red-700 p-3 rounded-lg mb-4">❌ <?php echo $error; ?></div>
+                    <div class="bg-red-100 text-red-700 p-3 rounded-lg mb-4">âŒ <?php echo $error; ?></div>
                 <?php endif; ?>
 
                 <!-- Pledges Table -->
@@ -294,11 +294,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
                             <select name="bulk_action" class="border rounded-lg p-2" id="bulkActionSelect">
                                 <option value="">Bulk Actions</option>
                                 <?php if (!$showTrash): ?>
-                                    <option value="email_resend">📧 Resend Email</option>
-                                    <option value="soft_delete">🗑️ Move to Trash</option>
+                                    <option value="email_resend">ðŸ“§ Resend Email</option>
+                                    <option value="soft_delete">ðŸ—‘ï¸ Move to Trash</option>
                                 <?php else: ?>
-                                    <option value="restore">↩️ Restore</option>
-                                    <option value="permanent_delete">💀 Permanent Delete</option>
+                                    <option value="restore">â†©ï¸ Restore</option>
+                                    <option value="permanent_delete">ðŸ’€ Permanent Delete</option>
                                 <?php endif; ?>
                             </select>
                             <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700" onclick="return validateBulkAction()">Apply</button>
@@ -327,7 +327,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
                                     };
                                 ?>
                                 <tr class="border-b hover:bg-gray-50">
-                                    <td class="p-3"><input type="checkbox" name="selected_ids[]" value="<?php echo $row['Id']; ?>" class="row-checkbox"></td>
+                                    <td class="p-3"><input type="checkbox" name="selected_ids[]" value="<?php echo $row['id']; ?>" class="row-checkbox"></td>
                                     <td class="p-3"><?php echo htmlspecialchars($row['pledger_name']); ?></td>
                                     <td class="p-3"><?php echo htmlspecialchars($row['email']); ?></td>
                                     <td class="p-3">£<?php echo number_format($row['amount_pledged'] ?? 0, 2); ?></td>
@@ -336,11 +336,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
                                     <td class="p-3">
                                         <div class="flex gap-1 justify-end">
                                             <?php if (!$showTrash): ?>
-                                                <button type="button" onclick="resendPledgeEmail(<?php echo $row['Id']; ?>)" class="text-blue-600 hover:text-blue-800" title="Resend Email">📧</button>
-                                                <a href="?delete=<?php echo $row['Id']; ?>" class="text-red-600 hover:text-red-800" title="Move to Trash" onclick="return confirm('Move to trash?')">🗑️</a>
+                                                <button type="button" onclick="resendPledgeEmail(<?php echo $row['id']; ?>)" class="text-blue-600 hover:text-blue-800" title="Resend Email">ðŸ“§</button>
+                                                <a href="?delete=<?php echo $row['id']; ?>" class="text-red-600 hover:text-red-800" title="Move to Trash" onclick="return confirm('Move to trash?')">ðŸ—‘ï¸</a>
                                             <?php else: ?>
-                                                <a href="?restore=<?php echo $row['Id']; ?>" class="text-green-600 hover:text-green-800" title="Restore">↩️</a>
-                                                <a href="?permanent_delete=<?php echo $row['Id']; ?>" class="text-red-600 hover:text-red-800" title="Permanent Delete" onclick="return confirm('Permanently delete? Cannot undo.')">💀</a>
+                                                <a href="?restore=<?php echo $row['id']; ?>" class="text-green-600 hover:text-green-800" title="Restore">â†©ï¸</a>
+                                                <a href="?permanent_delete=<?php echo $row['id']; ?>" class="text-red-600 hover:text-red-800" title="Permanent Delete" onclick="return confirm('Permanently delete? Cannot undo.')">ðŸ’€</a>
                                             <?php endif; ?>
                                         </div>
                                     </td>
@@ -350,9 +350,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
                                 <tr>
                                     <td colspan="7" class="text-center text-gray-500 py-12">
                                         <?php if ($showTrash): ?>
-                                            🗑️ No pledges in trash
+                                            ðŸ—‘ï¸ No pledges in trash
                                         <?php else: ?>
-                                            🤝 No pledges yet. <a href="#upload-section" class="text-blue-600 hover:underline">Upload from CSV</a>
+                                            ðŸ¤ No pledges yet. <a href="#upload-section" class="text-blue-600 hover:underline">Upload from CSV</a>
                                         <?php endif; ?>
                                     </td>
                                 </tr>
@@ -366,19 +366,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
             <!-- Bulk Upload Section -->
             <div id="upload-section" class="max-w-2xl mx-auto">
                 <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-xl font-bold">📤 Bulk Upload Pledges</h2>
+                    <h2 class="text-xl font-bold">ðŸ“¤ Bulk Upload Pledges</h2>
                 </div>
 
                 <?php if ($message && strpos($message, 'imported') !== false): ?>
-                    <div class="bg-green-100 text-green-700 p-3 rounded-lg mb-4">✅ <?php echo $message; ?></div>
+                    <div class="bg-green-100 text-green-700 p-3 rounded-lg mb-4">âœ… <?php echo $message; ?></div>
                 <?php endif; ?>
                 <?php if ($error && strpos($error, 'import') !== false): ?>
-                    <div class="bg-red-100 text-red-700 p-3 rounded-lg mb-4">❌ <?php echo $error; ?></div>
+                    <div class="bg-red-100 text-red-700 p-3 rounded-lg mb-4">âŒ <?php echo $error; ?></div>
                 <?php endif; ?>
 
                 <!-- Instructions -->
                 <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                    <h3 class="font-bold text-blue-800 mb-2">📋 Instructions</h3>
+                    <h3 class="font-bold text-blue-800 mb-2">ðŸ“‹ Instructions</h3>
                     <ul class="text-sm text-blue-700 space-y-1 list-disc list-inside">
                         <li>Download the template CSV file below</li>
                         <li>Fill in your pledge data (one pledge per row)</li>
@@ -390,7 +390,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
                 <!-- Download Template -->
                 <div class="bg-white rounded-lg shadow p-6 mb-6 text-center">
                     <a href="?template=1" class="bg-green-600 text-white px-6 py-3 rounded-lg inline-flex items-center gap-2 hover:bg-green-700">
-                        📥 Download CSV Template
+                        ðŸ“¥ Download CSV Template
                     </a>
                     <p class="text-sm text-gray-500 mt-2">Contains example data - edit and re-upload</p>
                 </div>
@@ -401,7 +401,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
                     
                     <form method="POST" enctype="multipart/form-data" id="uploadForm">
                         <div id="dropzone" class="dropzone border-2 rounded-xl p-12 text-center cursor-pointer hover:bg-gray-50 transition">
-                            <div class="text-5xl mb-3">📁</div>
+                            <div class="text-5xl mb-3">ðŸ“</div>
                             <p class="text-gray-600">Drag & drop CSV file here</p>
                             <p class="text-gray-400 text-sm mt-1">or click to select file</p>
                             <input type="file" name="csv_file" id="fileInput" accept=".csv" class="hidden">
@@ -412,19 +412,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
                             <div class="bg-gray-100 p-3 rounded-lg flex justify-between items-center">
                                 <span id="fileName" class="font-medium"></span>
                                 <span id="fileSize" class="text-sm text-gray-500"></span>
-                                <button type="button" onclick="clearFile()" class="text-red-600">✖ Remove</button>
+                                <button type="button" onclick="clearFile()" class="text-red-600">âœ– Remove</button>
                             </div>
                         </div>
                         
                         <button type="submit" id="submitBtn" class="mt-6 w-full bg-red-600 text-white py-3 rounded-lg font-bold hover:bg-red-700 transition hidden">
-                            📤 Upload & Import Pledges
+                            ðŸ“¤ Upload & Import Pledges
                         </button>
                     </form>
                 </div>
 
                 <!-- Preview of existing pledges -->
                 <div class="mt-6">
-                    <a href="pledges.php" class="text-blue-600 hover:underline">← Back to Pledge Management</a>
+                    <a href="pledges.php" class="text-blue-600 hover:underline">â† Back to Pledge Management</a>
                 </div>
             </div>
         </div>
@@ -484,7 +484,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
 
         // Email Resend Functions
         async function resendPledgeEmail(pledgeId) {
-            if(!confirm('📧 Resend pledge confirmation email to this pledger?')) return;
+            if(!confirm('ðŸ“§ Resend pledge confirmation email to this pledger?')) return;
             
             try {
                 const response = await fetch('/api/emails/resend-pledge-email.php', {
@@ -501,13 +501,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
                 const data = await response.json();
                 
                 if (data.success && data.count > 0) {
-                    showNotification('✅ Email sent successfully!', 'success');
+                    showNotification('âœ… Email sent successfully!', 'success');
                 } else {
-                    showNotification('⚠️ Email sent but may not have been delivered', 'warning');
+                    showNotification('âš ï¸ Email sent but may not have been delivered', 'warning');
                 }
             } catch (error) {
                 console.error('Error sending email:', error);
-                showNotification('❌ Error sending email', 'error');
+                showNotification('âŒ Error sending email', 'error');
             }
         }
 
@@ -527,23 +527,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
         function validateBulkAction() {
             const action = document.getElementById('bulkActionSelect').value;
             if (!action) {
-                showNotification('❌ Please select an action', 'error');
+                showNotification('âŒ Please select an action', 'error');
                 return false;
             }
             
             const checked = document.querySelectorAll('.row-checkbox:checked').length;
             if (checked === 0) {
-                showNotification('❌ Please select at least one pledge', 'error');
+                showNotification('âŒ Please select at least one pledge', 'error');
                 return false;
             }
             
             // Confirm destructive actions
             if (action === 'soft_delete') {
-                return confirm(`🗑️ Move ${checked} pledge(s) to trash?`);
+                return confirm(`ðŸ—‘ï¸ Move ${checked} pledge(s) to trash?`);
             } else if (action === 'permanent_delete') {
-                return confirm(`💀 Permanently delete ${checked} pledge(s)? This cannot be undone!`);
+                return confirm(`ðŸ’€ Permanently delete ${checked} pledge(s)? This cannot be undone!`);
             } else if (action === 'email_resend') {
-                return confirm(`📧 Resend confirmation emails to ${checked} pledger(s)?`);
+                return confirm(`ðŸ“§ Resend confirmation emails to ${checked} pledger(s)?`);
             }
             
             return true;

@@ -61,7 +61,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     <div class="container mx-auto px-4 py-8 max-w-2xl">
         <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
             <div class="bg-gradient-to-r from-red-600 to-red-700 p-6 text-white text-center">
-                <h1 class="text-2xl font-bold">📷 QR Scanner</h1>
+                <h1 class="text-2xl font-bold">ðŸ“· QR Scanner</h1>
                 <p class="text-red-100">Position QR code in front of camera</p>
             </div>
             <div class="p-6">
@@ -74,8 +74,8 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                 </div>
                 <div id="result" class="mt-4"></div>
                 <div class="mt-6 text-center">
-                    <button onclick="startCamera()" class="bg-blue-600 text-white px-4 py-2 rounded-lg">🔄 Restart Camera</button>
-                    <a href="attendees.php" class="text-red-600 hover:underline ml-4">← Back to Attendees</a>
+                    <button onclick="startCamera()" class="bg-blue-600 text-white px-4 py-2 rounded-lg">ðŸ”„ Restart Camera</button>
+                    <a href="attendees.php" class="text-red-600 hover:underline ml-4">â† Back to Attendees</a>
                 </div>
             </div>
         </div>
@@ -101,7 +101,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                 console.error("Camera error:", err);
                 document.getElementById('result').innerHTML = `
                     <div class="result-error">
-                        ❌ Cannot access camera. Please:<br>
+                        âŒ Cannot access camera. Please:<br>
                         1. Allow camera access<br>
                         2. Use HTTPS or localhost<br>
                         3. Check if camera is not in use
@@ -135,19 +135,19 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             const attendeeId = match ? match[1] : null;
             
             if (attendeeId) {
-                fetch(`/umojawetu-platform/api/attendees/checkin-by-id.php?id=${attendeeId}`)
+                fetch(`/api/attendees/checkin-by-id.php?id=${attendeeId}`)
                     .then(res => res.json())
                     .then(data => {
                         const resultDiv = document.getElementById('result');
                         if (data.success) {
-                            resultDiv.innerHTML = `<div class="result-success">✅ ${data.message}<br><strong>${data.name}</strong> checked in!</div>`;
+                            resultDiv.innerHTML = `<div class="result-success">âœ… ${data.message}<br><strong>${data.name}</strong> checked in!</div>`;
                             setTimeout(() => { window.location.href = 'attendees.php'; }, 2000);
                         } else {
-                            resultDiv.innerHTML = `<div class="result-error">❌ ${data.message}<br><button onclick="restartScanning()" class="mt-2 bg-red-600 text-white px-3 py-1 rounded">Scan Again</button></div>`;
+                            resultDiv.innerHTML = `<div class="result-error">âŒ ${data.message}<br><button onclick="restartScanning()" class="mt-2 bg-red-600 text-white px-3 py-1 rounded">Scan Again</button></div>`;
                         }
                     });
             } else {
-                document.getElementById('result').innerHTML = `<div class="result-error">❌ Invalid QR code<br><button onclick="restartScanning()" class="mt-2 bg-red-600 text-white px-3 py-1 rounded">Scan Again</button></div>`;
+                document.getElementById('result').innerHTML = `<div class="result-error">âŒ Invalid QR code<br><button onclick="restartScanning()" class="mt-2 bg-red-600 text-white px-3 py-1 rounded">Scan Again</button></div>`;
             }
         }
         

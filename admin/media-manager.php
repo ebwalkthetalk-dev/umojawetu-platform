@@ -7,7 +7,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 require_once __DIR__ . '/../config/config.php';
 
 $isLocal = Environment::isLocal();
-$apiBaseUrl = $isLocal ? '/umojawetu-platform/api' : 'https://event.umojawetu.com/api';
+$apiBaseUrl = $isLocal ? '/api' : 'https://event.umojawetu.com/api';
 ?>
 
 <!DOCTYPE html>
@@ -57,37 +57,37 @@ $apiBaseUrl = $isLocal ? '/umojawetu-platform/api' : 'https://event.umojawetu.co
             </div>
             <nav class="flex-1 p-4 space-y-1">
                 <a href="dashboard.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">
-                    <span>🏠</span> Dashboard
+                    <span>ðŸ </span> Dashboard
                 </a>
                 <a href="events.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">
-                    <span>📅</span> Events
+                    <span>ðŸ“…</span> Events
                 </a>
                 <a href="attendees.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">
-                    <span>👥</span> Attendees
+                    <span>ðŸ‘¥</span> Attendees
                 </a>
                 <a href="requests.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">
-                    <span>💰</span> Financial Requests
+                    <span>ðŸ’°</span> Financial Requests
                 </a>
                 <a href="media-manager.php" class="flex items-center gap-3 px-4 py-2 rounded-lg bg-red-600">
-                    <span>🖼️</span> Gallery
+                    <span>ðŸ–¼ï¸</span> Gallery
                 </a>
                 <a href="payments.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">
-                    <span>💳</span> Payments
+                    <span>ðŸ’³</span> Payments
                 </a>
                 <a href="email-templates.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">
-                    <span>📧</span> Email Templates
+                    <span>ðŸ“§</span> Email Templates
                 </a>
                 <a href="admins.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">
-                    <span>👑</span> Admin Management
+                    <span>ðŸ‘‘</span> Admin Management
                 </a>
                 <a href="analytics.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800">
-                    <span>📊</span> Analytics
+                    <span>ðŸ“Š</span> Analytics
                 </a>
             </nav>
             <div class="p-4 border-t border-gray-800">
                 <div class="text-sm text-gray-400 mb-2">Welcome, <?php echo htmlspecialchars($_SESSION['admin_username']); ?></div>
                 <a href="logout.php" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800 text-red-400">
-                    <span>🚪</span> Logout
+                    <span>ðŸšª</span> Logout
                 </a>
             </div>
         </div>
@@ -95,12 +95,12 @@ $apiBaseUrl = $isLocal ? '/umojawetu-platform/api' : 'https://event.umojawetu.co
         <!-- Main Content -->
         <div class="flex-1 overflow-auto">
             <div class="p-6">
-                <h1 class="text-2xl font-bold mb-2">🖼️ Media Gallery Manager</h1>
+                <h1 class="text-2xl font-bold mb-2">ðŸ–¼ï¸ Media Gallery Manager</h1>
                 <p class="text-gray-600 mb-6">Upload and manage photos and videos for the gallery</p>
 
                 <!-- Upload Section -->
                 <div class="bg-white rounded-xl shadow-md mb-8 p-6">
-                    <h2 class="text-xl font-bold mb-4">📤 Upload Media</h2>
+                    <h2 class="text-xl font-bold mb-4">ðŸ“¤ Upload Media</h2>
                     
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Year</label>
@@ -111,7 +111,7 @@ $apiBaseUrl = $isLocal ? '/umojawetu-platform/api' : 'https://event.umojawetu.co
                     </div>
 
                     <div id="dropzone" class="upload-dropzone border-2 border-dashed rounded-xl p-12 text-center cursor-pointer hover:bg-gray-50 transition">
-                        <i class="text-5xl text-gray-400 mb-3">📁</i>
+                        <i class="text-5xl text-gray-400 mb-3">ðŸ“</i>
                         <p class="text-gray-600">Drag & drop images or videos here</p>
                         <p class="text-gray-400 text-sm mt-1">or click to select files</p>
                         <input type="file" id="fileInput" class="hidden" multiple accept="image/*,video/mp4,video/webm">
@@ -127,7 +127,7 @@ $apiBaseUrl = $isLocal ? '/umojawetu-platform/api' : 'https://event.umojawetu.co
 
                 <!-- Media Grid -->
                 <div class="bg-white rounded-xl shadow-md p-6">
-                    <h2 class="text-xl font-bold mb-4">📸 Media Library</h2>
+                    <h2 class="text-xl font-bold mb-4">ðŸ“¸ Media Library</h2>
                     <div id="mediaGrid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 min-h-[200px]">
                         <div class="col-span-full text-center text-gray-500 py-10">Loading media...</div>
                     </div>
@@ -149,7 +149,7 @@ $apiBaseUrl = $isLocal ? '/umojawetu-platform/api' : 'https://event.umojawetu.co
         function showNotification(msg, type) {
             let n = document.createElement('div');
             n.className = `notification notification-${type}`;
-            n.innerHTML = (type === 'success' ? '✅ ' : '❌ ') + msg;
+            n.innerHTML = (type === 'success' ? 'âœ… ' : 'âŒ ') + msg;
             document.body.appendChild(n);
             setTimeout(() => {
                 n.style.opacity = '0';
@@ -164,11 +164,11 @@ $apiBaseUrl = $isLocal ? '/umojawetu-platform/api' : 'https://event.umojawetu.co
             modal.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50';
             modal.innerHTML = `
                 <div class="bg-white rounded-xl p-6 max-w-md w-full m-4">
-                    <h3 class="text-xl font-bold mb-4">✏️ Edit Media Caption</h3>
+                    <h3 class="text-xl font-bold mb-4">âœï¸ Edit Media Caption</h3>
                     <input type="text" id="captionInput" value="${currentCaption}" class="w-full border rounded-lg p-2 mb-4" placeholder="Enter caption...">
                     <div class="flex gap-2">
-                        <button onclick="saveCaptions('${id}')" class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">💾 Save</button>
-                        <button onclick="this.closest('.fixed').remove()" class="flex-1 bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400">✕ Cancel</button>
+                        <button onclick="saveCaptions('${id}')" class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">ðŸ’¾ Save</button>
+                        <button onclick="this.closest('.fixed').remove()" class="flex-1 bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400">âœ• Cancel</button>
                     </div>
                 </div>
             `;
@@ -204,7 +204,7 @@ $apiBaseUrl = $isLocal ? '/umojawetu-platform/api' : 'https://event.umojawetu.co
         
         // Delete Media
         function deleteMedia(id) {
-            if(!confirm('🗑️ Delete this media? This cannot be undone.')) return;
+            if(!confirm('ðŸ—‘ï¸ Delete this media? This cannot be undone.')) return;
             
             const formData = new FormData();
             formData.append('id', id);
@@ -246,17 +246,17 @@ $apiBaseUrl = $isLocal ? '/umojawetu-platform/api' : 'https://event.umojawetu.co
                         ${item.media_type === 'image' 
                             ? `<img src="${item.storage_path}" class="w-full h-32 object-cover" onerror="this.src='https://placehold.co/200x200/f0f0f0/cccccc?text=Error'">`
                             : `<div class="w-full h-32 bg-gray-800 flex items-center justify-center">
-                                <span class="text-2xl">🎥</span>
+                                <span class="text-2xl">ðŸŽ¥</span>
                                </div>`
                         }
                         <!-- Action Buttons (Hidden on Hover) -->
                         <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-2">
-                            <button onclick="editMedia('${item.id}', '${escapeQuotes(item.caption)}')" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm">✏️ Edit</button>
-                            <button onclick="deleteMedia('${item.id}')" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm">🗑️ Delete</button>
+                            <button onclick="editMedia('${item.id}', '${escapeQuotes(item.caption)}')" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm">âœï¸ Edit</button>
+                            <button onclick="deleteMedia('${item.id}')" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm">ðŸ—‘ï¸ Delete</button>
                         </div>
                         <div class="p-2 group-hover:hidden">
                             <p class="text-xs text-gray-600 truncate">${item.caption || 'No caption'}</p>
-                            <p class="text-xs text-gray-400 mt-1">📅 ${item.year}</p>
+                            <p class="text-xs text-gray-400 mt-1">ðŸ“… ${item.year}</p>
                         </div>
                     </div>
                 `).join('');
@@ -319,12 +319,12 @@ $apiBaseUrl = $isLocal ? '/umojawetu-platform/api' : 'https://event.umojawetu.co
                     const result = await response.json();
                     
                     if (result.success) {
-                        uploadStatus.innerHTML = `✅ Success: ${file.name}`;
+                        uploadStatus.innerHTML = `âœ… Success: ${file.name}`;
                     } else {
-                        uploadStatus.innerHTML = `❌ Failed: ${file.name} - ${result.error}`;
+                        uploadStatus.innerHTML = `âŒ Failed: ${file.name} - ${result.error}`;
                     }
                 } catch (error) {
-                    uploadStatus.innerHTML = `❌ Error: ${file.name}`;
+                    uploadStatus.innerHTML = `âŒ Error: ${file.name}`;
                 }
                 
                 completed++;
@@ -332,7 +332,7 @@ $apiBaseUrl = $isLocal ? '/umojawetu-platform/api' : 'https://event.umojawetu.co
                 progressBar.style.width = `${percent}%`;
             }
             
-            uploadStatus.innerHTML = `✅ Upload complete! ${files.length} file(s) processed.`;
+            uploadStatus.innerHTML = `âœ… Upload complete! ${files.length} file(s) processed.`;
             loadMedia();
             
             setTimeout(() => {
